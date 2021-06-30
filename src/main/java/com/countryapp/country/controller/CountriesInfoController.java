@@ -1,5 +1,6 @@
 package com.countryapp.country.controller;
 
+import com.countryapp.country.dto.Continent;
 import com.countryapp.country.dto.Country;
 import com.countryapp.country.services.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,12 @@ public class CountriesInfoController {
         this.countryService = countryService;
     }
 
+    // countries and currencies.
     @GetMapping("/countries")
     public List<Country> allCountriesInfo(){
         return countryService.showCountriesAndCurrencies.get();
     }
-
+    // single country on the list.
     @GetMapping("/country/{id}")
     public Country showCountryInfo(@PathVariable("id") int id){
         return countryService.showCountriesAndCurrencies.get()
@@ -34,5 +36,20 @@ public class CountriesInfoController {
                 .findAny().orElseThrow(()-> new IllegalArgumentException("Country is not available"));
 
     }
+
+    // Continents
+    @GetMapping("/continents")
+    public List<Continent> showContinents(){
+        return countryService.showContinents.get();
+    }
+
+    // search By continent
+    @GetMapping("/continent/{name}")
+    public List<Country> showCountryInfo(@PathVariable("name") String name){
+        return countryService.searchCountryByContinent.apply(name);
+
+    }
+
+
 
 }
